@@ -1,19 +1,26 @@
 import { useMemo, useState } from 'react'
-import { formatFecha, generateOrderId } from '../utils/pricing'
+import { formatFecha, generateOrderId, flattenItems, calcTotals, fmtMXN } from '../utils/pricing'
 import config from '../data/config.json'
 
 // TODO (Fase 2): Integración con Twist API
-// Al confirmar el pedido, además de generar el mensaje de texto, crear un proyecto
-// en Twist con los datos del pedido. Implementar aquí como hook post-confirmación:
-//   createTwistProject({ orderId, campana, tienda, contacto, items })
-// Ver documentación de la API de Twist: https://developer.twist.com/
+// Al confirmar el pedido, crear un proyecto en Twist con los datos del pedido:
+//   createTwistProject({ orderId, campana, tienda, contacto, lines })
+// Ver documentación: https://developer.twist.com/
 
-const ARTE_LABELS = { generico: 'Genérico', softline: 'Softline', hardline: 'Hardline' }
+const arteColor = {
+  'Genérico': 'bg-gray-100 text-gray-600',
+  'Soft':     'bg-liverpool-rosa-light text-liverpool-morado',
+  'Hard':     'bg-orange-100 text-orange-700',
+}
 
-function buildMessage(order, orderId) {
-  const itemsList = Object.entries(order.items).filter(([, v]) => v.qty > 0)
+function buildMessage(order, orderId, lines) {
+  const { subtotal, envio, total } = calcTotals(
+    // Rebuild items map from flat lines for calcTotals compatibility
+    Object.fromEntries(lines.map((l, i) => [i, l]))
+  )
+  const hasPlaceholders = lines.some(l => l.placeholder)
 
-  const lines = [
+  const msgLines = [
     `📦 PEDIDO DE MATERIAL DISPLAY`,
     `━━━━━━━━━━━━━━━━━━━━━━`,
     `ID: ${orderId}`,
@@ -22,42 +29,48 @@ function buildMessage(order, orderId) {
     `${order.campana?.nombre} — ${formatFecha(order.campana?.fecha)}`,
     ``,
     `🏪 TIENDA`,
-    `${order.tienda?.nombre}`,
+    `${order.tienda?.nombre} (#${order.tienda?.numero}) · ${order.tienda?.zona}`,
     `Contacto: ${order.contacto}`,
     ``,
     `📋 ARTÍCULOS`,
     `──────────────────────`,
   ]
 
-  for (const [, item] of itemsList) {
-    lines.push(`• ${item.nombre}`)
-    lines.push(`  Arte: ${ARTE_LABELS[item.arte] || item.arte}`)
-    lines.push(`  Cantidad: ${item.qty} pz`)
-    lines.push(`  Precio: Por confirmar`)
-    lines.push(``)
+  for (const line of lines) {
+    const lineTotal = line.placeholder ? 'Por confirmar' : fmtMXN(line.qty * line.precio)
+    msgLines.push(`• ${line.nombre} [${line.arte}]`)
+    msgLines.push(`  ${line.qty} pz × ${line.placeholder ? 'precio por confirmar' : fmtMXN(line.precio)} = ${lineTotal}`)
+    msgLines.push(``)
   }
 
-  lines.push(`──────────────────────`)
-  lines.push(`⚠ Los precios serán confirmados por ${config.nombre_empresa} antes de procesar.`)
-  lines.push(``)
-  lines.push(`━━━━━━━━━━━━━━━━━━━━━━`)
-  lines.push(`${config.nombre_empresa} × ${config.cliente}`)
+  msgLines.push(`──────────────────────`)
+  msgLines.push(`Subtotal:  ${fmtMXN(subtotal)}`)
+  msgLines.push(`Envío:     ${envio === 0 ? 'Gratis' : fmtMXN(envio)}`)
+  msgLines.push(`TOTAL:     ${fmtMXN(total)}`)
 
-  return lines.join('\n')
+  if (hasPlaceholders) {
+    msgLines.push(``)
+    msgLines.push(`⚠ Algunos precios están pendientes de confirmación. El total puede variar.`)
+  }
+
+  msgLines.push(``)
+  msgLines.push(`━━━━━━━━━━━━━━━━━━━━━━`)
+  msgLines.push(`${config.nombre_empresa} × ${config.cliente}`)
+
+  return msgLines.join('\n')
 }
 
 export default function StepConfirmacion({ order, onBack }) {
   const [copied, setCopied] = useState(false)
-  const itemsList = Object.entries(order.items).filter(([, v]) => v.qty > 0)
-
+  const lines = flattenItems(order.items)
+  const { subtotal, envio, total } = calcTotals(order.items)
+  const hasPlaceholders = lines.some(l => l.placeholder)
   const orderId = useMemo(() => generateOrderId(order.tienda), [order.tienda])
-  const message = useMemo(() => buildMessage(order, orderId), [order, orderId])
+  const message = useMemo(() => buildMessage(order, orderId, lines), [order, orderId, lines])
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(message)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
     } catch {
       const el = document.createElement('textarea')
       el.value = message
@@ -65,15 +78,14 @@ export default function StepConfirmacion({ order, onBack }) {
       el.select()
       document.execCommand('copy')
       document.body.removeChild(el)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
     }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2500)
   }
 
   const sendWhatsApp = () => {
-    const encoded = encodeURIComponent(message)
     const num = config.whatsapp_numero.replace(/\D/g, '')
-    window.open(`https://wa.me/${num}?text=${encoded}`, '_blank', 'noopener')
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent(message)}`, '_blank', 'noopener')
   }
 
   return (
@@ -106,7 +118,11 @@ export default function StepConfirmacion({ order, onBack }) {
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-gray-500">Tienda</span>
-              <span className="font-semibold text-gray-900">{order.tienda?.nombre}</span>
+              <span className="font-semibold text-gray-900">{order.tienda?.nombre} #{order.tienda?.numero}</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-500">Zona</span>
+              <span className="font-semibold text-gray-900">{order.tienda?.zona}</span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-gray-500">Contacto</span>
@@ -115,29 +131,54 @@ export default function StepConfirmacion({ order, onBack }) {
           </div>
 
           <div className="divide-y divide-gray-100">
-            {itemsList.map(([id, item]) => (
-              <div key={id} className="px-4 py-2.5 flex justify-between items-start gap-3">
+            {lines.map((line, i) => (
+              <div key={i} className="px-4 py-2.5 flex items-center justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-gray-900 leading-snug">{item.nombre}</p>
-                  <p className="text-[11px] text-gray-400 mt-0.5">
-                    {item.qty} pz · {ARTE_LABELS[item.arte] || item.arte}
-                  </p>
+                  <p className="text-xs font-semibold text-gray-900 leading-snug">{line.nombre}</p>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${arteColor[line.arte] || 'bg-gray-100 text-gray-600'}`}>
+                      {line.arte}
+                    </span>
+                    <span className="text-[10px] text-gray-400">{line.qty} pz × {fmtMXN(line.precio)}</span>
+                  </div>
                 </div>
-                <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold flex-shrink-0">
-                  Por confirmar
-                </span>
+                <div className="text-right flex-shrink-0">
+                  {line.placeholder ? (
+                    <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold">Por confirmar</span>
+                  ) : (
+                    <p className="text-xs font-bold text-gray-900">{fmtMXN(line.qty * line.precio)}</p>
+                  )}
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="bg-liverpool-rosa-light border-t border-liverpool-rosa px-4 py-3">
-            <p className="text-xs text-liverpool-morado font-medium text-center">
-              Premura enviará cotización formal antes de procesar
-            </p>
+          {/* Totals */}
+          <div className="border-t border-gray-200 px-4 py-3 space-y-1.5 bg-gray-50">
+            <div className="flex justify-between text-xs text-gray-500">
+              <span>Subtotal</span>
+              <span className="font-medium text-gray-800">{fmtMXN(subtotal)}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+              <span>Envío</span>
+              <span className={`font-medium ${envio === 0 ? 'text-green-600' : 'text-gray-800'}`}>
+                {envio === 0 ? 'Gratis' : fmtMXN(envio)}
+              </span>
+            </div>
+            <div className="flex justify-between pt-1 border-t border-gray-200">
+              <span className="text-sm font-bold text-gray-900">Total</span>
+              <span className="text-base font-bold text-liverpool-magenta">{fmtMXN(total)}</span>
+            </div>
           </div>
+
+          {hasPlaceholders && (
+            <div className="bg-amber-50 border-t border-amber-100 px-4 py-2.5">
+              <p className="text-xs text-amber-700 text-center">⚠ Algunos precios están por confirmar — el total puede variar</p>
+            </div>
+          )}
         </div>
 
-        {/* Action buttons */}
+        {/* Buttons */}
         <div className="space-y-3 pt-1">
           <button
             onClick={sendWhatsApp}
@@ -152,9 +193,7 @@ export default function StepConfirmacion({ order, onBack }) {
           <button
             onClick={copyToClipboard}
             className={`w-full py-3.5 rounded-xl border-2 font-semibold text-sm flex items-center justify-center gap-2 transition-colors active:opacity-80 ${
-              copied
-                ? 'border-green-400 bg-green-50 text-green-700'
-                : 'border-gray-200 text-gray-700'
+              copied ? 'border-green-400 bg-green-50 text-green-700' : 'border-gray-200 text-gray-700'
             }`}
           >
             {copied ? (
@@ -177,10 +216,7 @@ export default function StepConfirmacion({ order, onBack }) {
         </div>
 
         <div className="text-center pb-2">
-          <button
-            onClick={onBack}
-            className="text-xs text-gray-400 underline underline-offset-2"
-          >
+          <button onClick={onBack} className="text-xs text-gray-400 underline underline-offset-2">
             ← Volver al resumen
           </button>
         </div>

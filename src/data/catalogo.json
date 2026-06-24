@@ -11,10 +11,10 @@
           "descripcion": "Vinil Electroestático",
           "medida": "60 × 60 cm",
           "tipo": "piso",
-          "precio": 0,
+          "precio": 290,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "p02",
@@ -22,10 +22,10 @@
           "descripcion": "Foamboard 10mm Duplex",
           "medida": "60 × 120 cm",
           "tipo": "piso",
-          "precio": 0,
+          "precio": 650,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "p03",
@@ -33,10 +33,10 @@
           "descripcion": "Foamboard 10mm Duplex",
           "medida": "50 × 150 cm",
           "tipo": "piso",
-          "precio": 0,
+          "precio": 750,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "p04",
@@ -44,10 +44,10 @@
           "descripcion": "Foamboard 10mm Duplex",
           "medida": null,
           "tipo": "piso",
-          "precio": 0,
+          "precio": 680,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "p05",
@@ -55,10 +55,10 @@
           "descripcion": "Foamboard 10mm Duplex",
           "medida": "120 × 50 cm",
           "tipo": "piso",
-          "precio": 0,
+          "precio": 620,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "p06",
@@ -66,10 +66,10 @@
           "descripcion": "Foamboard 10mm Duplex",
           "medida": "70 × 40 cm",
           "tipo": "piso",
-          "precio": 0,
+          "precio": 290,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "p07",
@@ -77,10 +77,10 @@
           "descripcion": "Foamboard 10mm Duplex",
           "medida": "50 × 100 cm",
           "tipo": "piso",
-          "precio": 0,
+          "precio": 620,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "p08",
@@ -88,10 +88,10 @@
           "descripcion": "Cartulina",
           "medida": "50 × 30 cm",
           "tipo": "piso",
-          "precio": 0,
+          "precio": 60,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         }
       ]
     },
@@ -106,32 +106,43 @@
           "descripcion": "Estireno Cal 30, sencillo, con imán perimetral",
           "medida": null,
           "tipo": "mueble",
-          "precio": 0,
+          "precio": 420,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "m02",
           "nombre": "Mesa MMM",
-          "descripcion": "Gráfico para mesa",
-          "medida": null,
+          "descripcion": "Estireno Cal 30, con imán perimetral, 2 piezas",
+          "medida": "61 × 94 cm",
           "tipo": "mueble",
-          "precio": 0,
+          "precio": 620,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "m03",
-          "nombre": "Mesa Prom",
-          "descripcion": "Gráfico para mesa promocional",
-          "medida": null,
+          "nombre": "Gondola",
+          "descripcion": "Foamboard 10mm Duplex",
+          "medida": "90 × 40 cm",
           "tipo": "mueble",
-          "precio": 0,
+          "precio": 350,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
+        },
+        {
+          "id": "m04",
+          "nombre": "Perimetro",
+          "descripcion": "Foamboard 10mm Duplex",
+          "medida": "50 × 52 cm",
+          "tipo": "mueble",
+          "precio": 300,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
         }
       ]
     },
@@ -144,56 +155,56 @@
           "id": "b01",
           "nombre": "Ballet 80",
           "descripcion": "Foamboard 5mm Duplex",
-          "medida": null,
+          "medida": "76 × 25 cm",
           "tipo": "barra",
-          "precio": 0,
+          "precio": 380,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "b02",
           "nombre": "Ballet 120",
           "descripcion": "Foamboard 5mm Duplex",
-          "medida": null,
+          "medida": "116 × 25 cm",
           "tipo": "barra",
-          "precio": 0,
+          "precio": 260,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "b03",
           "nombre": "Tringla MIC",
           "descripcion": "Foamboard 5mm Duplex",
-          "medida": null,
+          "medida": "124 × 25 cm",
           "tipo": "barra",
-          "precio": 0,
+          "precio": 410,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "b04",
           "nombre": "Tringla",
           "descripcion": "Foamboard 5mm Duplex",
-          "medida": null,
+          "medida": "149 × 25 cm",
           "tipo": "barra",
-          "precio": 0,
+          "precio": 490,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         },
         {
           "id": "b05",
           "nombre": "Zapatera",
           "descripcion": "Foamboard 5mm Duplex",
-          "medida": null,
+          "medida": "111 × 25 cm",
           "tipo": "barra",
-          "precio": 0,
+          "precio": 380,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": true
+          "placeholder": false
         }
       ]
     }

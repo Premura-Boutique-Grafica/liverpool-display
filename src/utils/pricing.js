@@ -1,16 +1,28 @@
 import config from '../data/config.json'
 
+export const ARTES = [
+  { id: 'generico', label: 'Genérico', color: 'gray' },
+  { id: 'softline', label: 'Soft',     color: 'rosa' },
+  { id: 'hardline', label: 'Hard',     color: 'naranja' },
+]
+
+export function totalQtyItem(item) {
+  if (!item?.qtys) return 0
+  return Object.values(item.qtys).reduce((s, q) => s + (q || 0), 0)
+}
+
 export function calcTotals(items) {
+  // Prices are all placeholder (0) until confirmed — shipping logic dormant
   const subtotal = Object.values(items).reduce((sum, item) => {
-    return sum + (item.qty || 0) * (item.precio || 0)
+    const qty = totalQtyItem(item)
+    return sum + qty * (item.precio || 0)
   }, 0)
 
   const threshold = config.envio?.threshold_waiver ?? 5000
   const costoEnvio = config.envio?.costo ?? 350
   const envio = subtotal >= threshold ? 0 : (subtotal > 0 ? costoEnvio : 0)
-  const total = subtotal + envio
 
-  return { subtotal, envio, total }
+  return { subtotal, envio, total: subtotal + envio }
 }
 
 export function fmtMXN(n) {
@@ -42,4 +54,25 @@ export function generateOrderId(tienda) {
     String(now.getMinutes()).padStart(2, '0'),
   ].join('')
   return `LIV-${id}-${date}-${time}`
+}
+
+// Returns flat list of {nombre, arte, qty, precio, placeholder} for summary/message
+export function flattenItems(items) {
+  const arteLabel = Object.fromEntries(ARTES.map(a => [a.id, a.label]))
+  const lines = []
+  for (const item of Object.values(items)) {
+    if (!item?.qtys) continue
+    for (const [arteId, qty] of Object.entries(item.qtys)) {
+      if (qty > 0) {
+        lines.push({
+          nombre: item.nombre,
+          arte: arteLabel[arteId] || arteId,
+          qty,
+          precio: item.precio || 0,
+          placeholder: item.placeholder,
+        })
+      }
+    }
+  }
+  return lines
 }
