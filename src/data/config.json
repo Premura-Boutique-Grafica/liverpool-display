@@ -1,0 +1,9 @@
+{
+  "whatsapp_numero": "5215500000000",
+  "nombre_empresa": "Premura Boutique Gráfica",
+  "cliente": "Liverpool",
+  "envio": {
+    "costo": 350,
+    "threshold_waiver": 5000
+  }
+}

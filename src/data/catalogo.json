@@ -1,0 +1,212 @@
+{
+  "categorias": [
+    {
+      "id": "piso",
+      "nombre": "Material de Piso",
+      "icono": "floor",
+      "productos": [
+        {
+          "id": "p01",
+          "nombre": "Display Stand Torre",
+          "descripcion": "Torre de exhibición de piso con 4 niveles, estructura metálica",
+          "tipo": "piso",
+          "precio": 1850,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "p02",
+          "nombre": "Hanger de Piso Doble",
+          "descripcion": "Perchero de piso doble barra, capacidad 40 prendas",
+          "tipo": "piso",
+          "precio": 980,
+          "artes": ["generico", "softline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "p03",
+          "nombre": "Señalética de Piso A-Frame",
+          "descripcion": "Marco A de piso para señalética, doble cara, medidas 60×90 cm",
+          "tipo": "piso",
+          "precio": 420,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "p04",
+          "nombre": "Canasta Metálica de Piso",
+          "descripcion": "Canasta exhibidora de piso tipo cesta, capacidad alto volumen",
+          "tipo": "piso",
+          "precio": 650,
+          "artes": ["generico", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "p05",
+          "nombre": "Totem Impreso 180cm",
+          "descripcion": "Totem impreso full-color doble cara, estructura incluida",
+          "tipo": "piso",
+          "precio": 1200,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": true
+        }
+      ]
+    },
+    {
+      "id": "mueble",
+      "nombre": "Material de Mueble",
+      "icono": "furniture",
+      "productos": [
+        {
+          "id": "m01",
+          "nombre": "Header de Gondola",
+          "descripcion": "Cabezal impreso para góndola, medidas estándar Liverpool 90×30 cm",
+          "tipo": "mueble",
+          "precio": 280,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "m02",
+          "nombre": "Módulo Expositor Mueble",
+          "descripcion": "Módulo acrílico para exhibición sobre mueble, 3 compartimentos",
+          "tipo": "mueble",
+          "precio": 560,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "m03",
+          "nombre": "Etiqueta de Precio Grande",
+          "descripcion": "Cartela de precio tamaño grande, impresión a color, set de 10",
+          "tipo": "mueble",
+          "precio": 120,
+          "artes": ["generico"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "m04",
+          "nombre": "Faldón de Mueble",
+          "descripcion": "Faldón impreso para frente de mueble, vinilo adhesivo",
+          "tipo": "mueble",
+          "precio": 380,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "m05",
+          "nombre": "Señalética Lateral Mueble",
+          "descripcion": "Señalética de banderola lateral para mueble, doble cara",
+          "tipo": "mueble",
+          "precio": 195,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        }
+      ]
+    },
+    {
+      "id": "barra",
+      "nombre": "Material de Barra",
+      "icono": "bar",
+      "productos": [
+        {
+          "id": "b01",
+          "nombre": "Display Counter Barra",
+          "descripcion": "Display sobre mostrador para barra de servicio, acrílico",
+          "tipo": "barra",
+          "precio": 750,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "b02",
+          "nombre": "Roll-Up Barra 85cm",
+          "descripcion": "Banner roll-up para zona de barra, 85×200 cm con estructura",
+          "tipo": "barra",
+          "precio": 890,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "b03",
+          "nombre": "Soporte Folleto Barra",
+          "descripcion": "Portafolletos de mostrador, acrílico transparente, 3 bolsillos",
+          "tipo": "barra",
+          "precio": 165,
+          "artes": ["generico"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "b04",
+          "nombre": "Vinilo Decorativo Barra",
+          "descripcion": "Aplicación de vinilo decorativo para frente de barra, hasta 2m",
+          "tipo": "barra",
+          "precio": 480,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": true
+        }
+      ]
+    },
+    {
+      "id": "colgante",
+      "nombre": "Material Colgante",
+      "icono": "hanging",
+      "productos": [
+        {
+          "id": "c01",
+          "nombre": "Banderola Colgante Simple",
+          "descripcion": "Banderola colgante impresa una cara, 40×60 cm con cuerda",
+          "tipo": "colgante",
+          "precio": 145,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "c02",
+          "nombre": "Banderola Colgante Doble",
+          "descripcion": "Banderola colgante doble cara, 40×60 cm, lona con acabado mate",
+          "tipo": "colgante",
+          "precio": 210,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "c03",
+          "nombre": "Cenefa Colgante por Metro",
+          "descripcion": "Cenefa decorativa colgante, precio por metro lineal, mínimo 3m",
+          "tipo": "colgante",
+          "precio": 95,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": false
+        },
+        {
+          "id": "c04",
+          "nombre": "Kit Banderolas Campaña",
+          "descripcion": "Set de 5 banderolas temáticas coordinadas, doble cara",
+          "tipo": "colgante",
+          "precio": 950,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": true
+        }
+      ]
+    }
+  ]
+}
