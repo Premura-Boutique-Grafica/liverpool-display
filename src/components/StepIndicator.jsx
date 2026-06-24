@@ -5,7 +5,7 @@ export default function StepIndicator({ step, steps }) {
         <div
           key={s.id}
           className={`flex-1 h-1 transition-colors duration-300 ${
-            s.id <= step ? 'bg-liverpool-yellow' : 'bg-gray-100'
+            s.id <= step ? 'bg-liverpool-magenta' : 'bg-gray-100'
           }`}
         />
       ))}

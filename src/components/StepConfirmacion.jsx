@@ -1,19 +1,17 @@
 import { useMemo, useState } from 'react'
-import { calcTotals, fmtMXN, formatFecha, generateOrderId } from '../utils/pricing'
+import { formatFecha, generateOrderId } from '../utils/pricing'
 import config from '../data/config.json'
 
 // TODO (Fase 2): Integración con Twist API
 // Al confirmar el pedido, además de generar el mensaje de texto, crear un proyecto
 // en Twist con los datos del pedido. Implementar aquí como hook post-confirmación:
-//   createTwistProject({ orderId, campana, tienda, contacto, items, total })
+//   createTwistProject({ orderId, campana, tienda, contacto, items })
 // Ver documentación de la API de Twist: https://developer.twist.com/
 
 const ARTE_LABELS = { generico: 'Genérico', softline: 'Softline', hardline: 'Hardline' }
 
 function buildMessage(order, orderId) {
-  const { subtotal, envio, total } = calcTotals(order.items)
   const itemsList = Object.entries(order.items).filter(([, v]) => v.qty > 0)
-  const hasPlaceholders = itemsList.some(([, v]) => v.placeholder)
 
   const lines = [
     `📦 PEDIDO DE MATERIAL DISPLAY`,
@@ -34,21 +32,13 @@ function buildMessage(order, orderId) {
   for (const [, item] of itemsList) {
     lines.push(`• ${item.nombre}`)
     lines.push(`  Arte: ${ARTE_LABELS[item.arte] || item.arte}`)
-    lines.push(`  Cant: ${item.qty} × ${fmtMXN(item.precio)}${item.placeholder ? ' (⚠ por confirmar)' : ''}`)
-    lines.push(`  Subtotal: ${item.placeholder ? 'Por confirmar' : fmtMXN(item.qty * item.precio)}`)
+    lines.push(`  Cantidad: ${item.qty} pz`)
+    lines.push(`  Precio: Por confirmar`)
     lines.push(``)
   }
 
   lines.push(`──────────────────────`)
-  lines.push(`Subtotal:  ${fmtMXN(subtotal)}`)
-  lines.push(`Envío:     ${envio === 0 ? 'Gratis' : fmtMXN(envio)}`)
-  lines.push(`TOTAL:     ${fmtMXN(total)}`)
-
-  if (hasPlaceholders) {
-    lines.push(``)
-    lines.push(`⚠ Nota: Uno o más artículos tienen precio pendiente de confirmación. El total puede variar.`)
-  }
-
+  lines.push(`⚠ Los precios serán confirmados por ${config.nombre_empresa} antes de procesar.`)
   lines.push(``)
   lines.push(`━━━━━━━━━━━━━━━━━━━━━━`)
   lines.push(`${config.nombre_empresa} × ${config.cliente}`)
@@ -58,9 +48,7 @@ function buildMessage(order, orderId) {
 
 export default function StepConfirmacion({ order, onBack }) {
   const [copied, setCopied] = useState(false)
-  const { subtotal, envio, total } = calcTotals(order.items)
   const itemsList = Object.entries(order.items).filter(([, v]) => v.qty > 0)
-  const hasPlaceholders = itemsList.some(([, v]) => v.placeholder)
 
   const orderId = useMemo(() => generateOrderId(order.tienda), [order.tienda])
   const message = useMemo(() => buildMessage(order, orderId), [order, orderId])
@@ -71,7 +59,6 @@ export default function StepConfirmacion({ order, onBack }) {
       setCopied(true)
       setTimeout(() => setCopied(false), 2500)
     } catch {
-      // Fallback for older mobile browsers
       const el = document.createElement('textarea')
       el.value = message
       document.body.appendChild(el)
@@ -93,42 +80,40 @@ export default function StepConfirmacion({ order, onBack }) {
     <div className="flex flex-col flex-1 step-enter">
       <div className="flex-1 px-4 pt-6 pb-4 space-y-5">
 
-        {/* Recibo header */}
+        {/* Header */}
         <div className="text-center space-y-1">
-          <div className="w-14 h-14 bg-liverpool-yellow rounded-full flex items-center justify-center mx-auto">
-            <svg className="w-7 h-7 text-liverpool-black" fill="none" viewBox="0 0 24 24">
+          <div className="w-14 h-14 bg-liverpool-magenta rounded-full flex items-center justify-center mx-auto">
+            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24">
               <path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <h2 className="text-lg font-bold text-liverpool-black">¡Pedido listo!</h2>
-          <p className="text-sm text-gray-500">Copia o envía el pedido por WhatsApp</p>
+          <h2 className="text-lg font-bold text-gray-900">¡Pedido listo!</h2>
+          <p className="text-sm text-gray-500">Envía o copia el pedido para que Premura lo procese</p>
         </div>
 
         {/* Order ID */}
-        <div className="bg-liverpool-black text-liverpool-yellow rounded-xl px-4 py-3 text-center">
-          <p className="text-xs text-liverpool-yellow/60 uppercase tracking-widest mb-1">ID de pedido</p>
+        <div className="bg-liverpool-morado text-white rounded-xl px-4 py-3 text-center">
+          <p className="text-xs text-white/60 uppercase tracking-widest mb-1">ID de pedido</p>
           <p className="font-mono font-bold text-sm tracking-wide">{orderId}</p>
         </div>
 
         {/* Receipt */}
         <div className="border border-gray-200 rounded-xl overflow-hidden">
-          {/* Header */}
-          <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+          <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 space-y-1.5">
             <div className="flex justify-between text-xs">
               <span className="text-gray-500">Campaña</span>
               <span className="font-semibold text-gray-900">{order.campana?.nombre}</span>
             </div>
-            <div className="flex justify-between text-xs mt-1.5">
+            <div className="flex justify-between text-xs">
               <span className="text-gray-500">Tienda</span>
               <span className="font-semibold text-gray-900">{order.tienda?.nombre}</span>
             </div>
-            <div className="flex justify-between text-xs mt-1.5">
+            <div className="flex justify-between text-xs">
               <span className="text-gray-500">Contacto</span>
               <span className="font-semibold text-gray-900">{order.contacto}</span>
             </div>
           </div>
 
-          {/* Items */}
           <div className="divide-y divide-gray-100">
             {itemsList.map(([id, item]) => (
               <div key={id} className="px-4 py-2.5 flex justify-between items-start gap-3">
@@ -138,47 +123,19 @@ export default function StepConfirmacion({ order, onBack }) {
                     {item.qty} pz · {ARTE_LABELS[item.arte] || item.arte}
                   </p>
                 </div>
-                <div className="text-right flex-shrink-0">
-                  {item.placeholder ? (
-                    <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold">
-                      Por confirmar
-                    </span>
-                  ) : (
-                    <span className="text-xs font-bold text-gray-900">{fmtMXN(item.qty * item.precio)}</span>
-                  )}
-                </div>
+                <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold flex-shrink-0">
+                  Por confirmar
+                </span>
               </div>
             ))}
           </div>
 
-          {/* Totals */}
-          <div className="bg-gray-50 border-t border-gray-200 px-4 py-3 space-y-1.5">
-            <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Subtotal</span>
-              <span className="text-gray-800 font-medium">{fmtMXN(subtotal)}</span>
-            </div>
-            <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Envío</span>
-              <span className={`font-medium ${envio === 0 ? 'text-green-600' : 'text-gray-800'}`}>
-                {envio === 0 ? 'Gratis' : fmtMXN(envio)}
-              </span>
-            </div>
-            <div className="h-px bg-gray-200" />
-            <div className="flex justify-between">
-              <span className="text-sm font-bold text-gray-900">Total</span>
-              <span className="text-base font-bold text-liverpool-black">{fmtMXN(total)}</span>
-            </div>
-          </div>
-        </div>
-
-        {hasPlaceholders && (
-          <div className="flex gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
-            <span className="text-amber-500 text-base leading-none mt-0.5">⚠</span>
-            <p className="text-xs text-amber-800 leading-relaxed">
-              El total puede variar. Algunos artículos tienen precio pendiente de confirmación.
+          <div className="bg-liverpool-rosa-light border-t border-liverpool-rosa px-4 py-3">
+            <p className="text-xs text-liverpool-morado font-medium text-center">
+              Premura enviará cotización formal antes de procesar
             </p>
           </div>
-        )}
+        </div>
 
         {/* Action buttons */}
         <div className="space-y-3 pt-1">

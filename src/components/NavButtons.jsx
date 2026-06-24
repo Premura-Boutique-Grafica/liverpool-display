@@ -14,9 +14,7 @@ export default function NavButtons({ onNext, onBack, step, nextLabel = 'Siguient
         type="button"
         onClick={onNext}
         disabled={disabled}
-        className={`flex-1 py-3.5 rounded-xl text-sm font-bold transition-opacity ${
-          step === 1 ? 'w-full' : ''
-        } bg-liverpool-black text-liverpool-yellow disabled:opacity-40 active:opacity-80`}
+        className="flex-1 py-3.5 rounded-xl text-sm font-bold transition-opacity bg-liverpool-magenta text-white disabled:opacity-40 active:opacity-80"
       >
         {nextLabel}
       </button>

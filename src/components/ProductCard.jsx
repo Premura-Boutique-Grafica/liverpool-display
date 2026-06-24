@@ -7,7 +7,6 @@ const ARTE_LABELS = {
   hardline: 'Hardline',
 }
 
-// Dynamic import for product images
 function ProductImage({ product, onClick }) {
   const [imgError, setImgError] = useState(false)
 
@@ -48,7 +47,7 @@ export default function ProductCard({ product, item, onQtyChange, onArteChange, 
 
   return (
     <div className={`bg-white rounded-xl border-2 transition-colors duration-150 overflow-hidden ${
-      hasQty ? 'border-liverpool-black' : 'border-gray-200'
+      hasQty ? 'border-liverpool-magenta' : 'border-gray-200'
     }`}>
       <div className="flex gap-3 p-3">
         <ProductImage product={product} onClick={onImageClick} />
@@ -59,21 +58,17 @@ export default function ProductCard({ product, item, onQtyChange, onArteChange, 
               <h3 className="text-sm font-semibold text-gray-900 leading-tight">
                 {product.nombre}
               </h3>
-              <p className="text-xs text-gray-500 mt-0.5 line-clamp-2 leading-snug">
+              <p className="text-xs text-gray-500 mt-0.5 leading-snug">
                 {product.descripcion}
+                {product.medida && (
+                  <span className="text-gray-400"> · {product.medida}</span>
+                )}
               </p>
             </div>
             <div className="text-right flex-shrink-0">
-              {product.placeholder ? (
-                <div>
-                  <p className="text-xs text-gray-400 line-through">{fmtMXN(product.precio)}</p>
-                  <span className="inline-block bg-amber-100 text-amber-700 text-[10px] font-semibold px-1.5 py-0.5 rounded-full leading-none">
-                    Por confirmar
-                  </span>
-                </div>
-              ) : (
-                <p className="text-sm font-bold text-gray-900">{fmtMXN(product.precio)}</p>
-              )}
+              <span className="inline-block bg-amber-100 text-amber-700 text-[10px] font-semibold px-1.5 py-0.5 rounded-full leading-none whitespace-nowrap">
+                Precio por confirmar
+              </span>
             </div>
           </div>
         </div>
@@ -91,7 +86,7 @@ export default function ProductCard({ product, item, onQtyChange, onArteChange, 
                 onClick={() => onArteChange(a)}
                 className={`text-xs px-2.5 py-1 rounded-full border font-medium transition-colors ${
                   arte === a && hasQty
-                    ? 'bg-liverpool-black text-liverpool-yellow border-liverpool-black'
+                    ? 'bg-liverpool-morado text-white border-liverpool-morado'
                     : arte === a
                     ? 'bg-gray-100 text-gray-700 border-gray-300'
                     : 'bg-white text-gray-500 border-gray-200'
@@ -119,7 +114,7 @@ export default function ProductCard({ product, item, onQtyChange, onArteChange, 
             −
           </button>
           <div className={`w-8 text-center text-sm font-bold leading-none py-2 ${
-            hasQty ? 'text-liverpool-black' : 'text-gray-400'
+            hasQty ? 'text-liverpool-magenta' : 'text-gray-400'
           }`}>
             {qty}
           </div>
@@ -136,16 +131,11 @@ export default function ProductCard({ product, item, onQtyChange, onArteChange, 
 
       {hasQty && (
         <div className="px-3 pb-2.5">
-          <div className="flex justify-between text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-1.5">
-            <span>{qty} × {fmtMXN(product.precio)}</span>
-            <span className="font-semibold text-gray-800">{fmtMXN(qty * product.precio)}</span>
+          <div className="flex justify-between text-xs bg-liverpool-rosa-light rounded-lg px-3 py-1.5">
+            <span className="text-liverpool-morado font-medium">{qty} pz × precio por confirmar</span>
           </div>
         </div>
       )}
     </div>
   )
-}
-
-function fmtMXN(n) {
-  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', minimumFractionDigits: 0 }).format(n)
 }
