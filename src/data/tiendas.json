@@ -1,0 +1,17 @@
+[
+  { "id": "perisur", "nombre": "Perisur" },
+  { "id": "insurgentes", "nombre": "Insurgentes" },
+  { "id": "satelite", "nombre": "Satélite" },
+  { "id": "interlomas", "nombre": "Interlomas" },
+  { "id": "santa-fe", "nombre": "Santa Fe" },
+  { "id": "polanco", "nombre": "Polanco" },
+  { "id": "tlalnepantla", "nombre": "Tlalnepantla" },
+  { "id": "lindavista", "nombre": "Lindavista" },
+  { "id": "galerias-coapa", "nombre": "Galerías Coapa" },
+  { "id": "metepec", "nombre": "Metepec" },
+  { "id": "puebla-angelopolis", "nombre": "Puebla Angelópolis" },
+  { "id": "guadalajara-patria", "nombre": "Guadalajara Patria" },
+  { "id": "monterrey-cumbres", "nombre": "Monterrey Cumbres" },
+  { "id": "san-luis-potosi", "nombre": "San Luis Potosí" },
+  { "id": "queretaro-antea", "nombre": "Querétaro Antea" }
+]
