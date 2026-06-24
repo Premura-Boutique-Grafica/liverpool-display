@@ -8,12 +8,13 @@ export default {
     extend: {
       colors: {
         liverpool: {
-          yellow: '#FFD600',
-          'yellow-dark': '#E6C000',
-          black: '#111111',
-          gray: '#F5F5F5',
-          'gray-mid': '#E0E0E0',
-          'gray-text': '#6B6B6B',
+          magenta: '#E21F8F',
+          'magenta-dark': '#C01A7A',
+          rosa: '#E888B8',
+          'rosa-light': '#F7D5EA',
+          naranja: '#F3702C',
+          morado: '#79256F',
+          'morado-dark': '#5E1B55',
         },
       },
       maxWidth: {

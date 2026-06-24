@@ -30,15 +30,6 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
       updateOrder({ items: next })
       return
     }
-    updateItem(product.id, 'qty', qty)
-    // Set default arte if not set
-    if (!order.items[product.id]?.arte) {
-      updateItem(product.id, 'arte', product.artes[0])
-      updateItem(product.id, 'nombre', product.nombre)
-      updateItem(product.id, 'precio', product.precio)
-      updateItem(product.id, 'placeholder', product.placeholder)
-    }
-    // Store product meta alongside qty
     updateOrder({
       items: {
         ...order.items,
@@ -70,6 +61,7 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
   }
 
   const totalItems = Object.values(order.items).reduce((s, i) => s + (i.qty || 0), 0)
+  const allPlaceholder = Object.values(order.items).every(i => i.placeholder)
 
   return (
     <div className="flex flex-col flex-1">
@@ -101,25 +93,21 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
       <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white border-t-2 border-gray-100 z-20">
         <div className="px-4 py-3 space-y-1">
           <div className="flex justify-between text-xs text-gray-500">
-            <span>{totalItems} artículo{totalItems !== 1 ? 's' : ''}</span>
-            <span>Subtotal: <span className="text-gray-800 font-medium">{fmtMXN(subtotal)}</span></span>
+            <span>{totalItems} artículo{totalItems !== 1 ? 's' : ''} seleccionado{totalItems !== 1 ? 's' : ''}</span>
+            {allPlaceholder && totalItems > 0 && (
+              <span className="text-amber-600 font-medium">Precios por confirmar</span>
+            )}
           </div>
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-500">Envío</span>
-            <span className={envio === 0 ? 'text-green-600 font-medium' : 'text-gray-800 font-medium'}>
-              {envio === 0 ? 'Gratis' : fmtMXN(envio)}
-            </span>
-          </div>
-          {envio > 0 && subtotal > 0 && (
-            <p className="text-xs text-gray-400">
-              Envío gratis a partir de {fmtMXN(config.envio.threshold_waiver)}
-            </p>
-          )}
         </div>
         <div className="px-4 pb-3 flex items-center justify-between">
           <div className="flex items-baseline gap-1">
-            <span className="text-xs text-gray-500">Total</span>
-            <span className="text-xl font-bold text-liverpool-black">{fmtMXN(total)}</span>
+            {totalItems === 0 ? (
+              <span className="text-xs text-gray-400">Agrega al menos un artículo</span>
+            ) : (
+              <span className="text-sm text-gray-500">
+                {totalItems} artículo{totalItems !== 1 ? 's' : ''}
+              </span>
+            )}
           </div>
           <div className="flex gap-2">
             <button
@@ -131,7 +119,7 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
             <button
               onClick={onNext}
               disabled={totalItems === 0}
-              className="px-5 py-2.5 rounded-xl bg-liverpool-black text-liverpool-yellow font-bold text-sm disabled:opacity-40 active:opacity-80"
+              className="px-5 py-2.5 rounded-xl bg-liverpool-magenta text-white font-bold text-sm disabled:opacity-40 active:opacity-80"
             >
               Revisar →
             </button>
@@ -144,8 +132,4 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
       )}
     </div>
   )
-}
-
-function fmtMXN(n) {
-  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', minimumFractionDigits: 0 }).format(n)
 }

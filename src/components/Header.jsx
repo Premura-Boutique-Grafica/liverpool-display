@@ -4,11 +4,11 @@ export default function Header({ step, steps }) {
   const currentStep = steps.find(s => s.id === step)
 
   return (
-    <header className="bg-liverpool-black sticky top-0 z-30">
+    <header className="bg-liverpool-morado sticky top-0 z-30">
       <div className="flex items-center gap-3 px-4 py-3">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-liverpool-yellow rounded-sm flex items-center justify-center">
-            <span className="text-liverpool-black font-bold text-xs leading-none">L</span>
+          <div className="w-6 h-6 bg-liverpool-magenta rounded-sm flex items-center justify-center">
+            <span className="text-white font-bold text-xs leading-none">L</span>
           </div>
           <span className="text-white font-semibold text-sm tracking-wide">
             {config.cliente}

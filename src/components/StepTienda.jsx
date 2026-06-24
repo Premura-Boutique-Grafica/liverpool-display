@@ -45,7 +45,7 @@ export default function StepTienda({ order, updateOrder, onNext, onBack }) {
             className={`w-full rounded-xl border-2 px-4 py-3 text-sm outline-none transition-colors ${
               errors.contacto
                 ? 'border-red-400 focus:border-red-500'
-                : 'border-gray-200 focus:border-liverpool-black'
+                : 'border-gray-200 focus:border-liverpool-magenta'
             }`}
           />
           {errors.contacto && (
@@ -59,7 +59,6 @@ export default function StepTienda({ order, updateOrder, onNext, onBack }) {
             Tienda
           </label>
 
-          {/* Search */}
           <div className="relative mb-3">
             <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2"/>
@@ -70,7 +69,7 @@ export default function StepTienda({ order, updateOrder, onNext, onBack }) {
               placeholder="Buscar tienda..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full rounded-xl border-2 border-gray-200 pl-9 pr-4 py-2.5 text-sm outline-none focus:border-liverpool-black"
+              className="w-full rounded-xl border-2 border-gray-200 pl-9 pr-4 py-2.5 text-sm outline-none focus:border-liverpool-magenta"
             />
           </div>
 
@@ -87,17 +86,17 @@ export default function StepTienda({ order, updateOrder, onNext, onBack }) {
                   onClick={() => selectTienda(t)}
                   className={`text-left rounded-xl border-2 px-3 py-3 transition-all duration-150 ${
                     selected
-                      ? 'border-liverpool-black bg-liverpool-yellow/10'
+                      ? 'border-liverpool-magenta bg-liverpool-rosa-light'
                       : 'border-gray-200 bg-white hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-1">
-                    <span className={`text-xs font-medium leading-tight ${selected ? 'text-liverpool-black' : 'text-gray-800'}`}>
+                    <span className={`text-xs font-medium leading-tight ${selected ? 'text-liverpool-morado' : 'text-gray-800'}`}>
                       {t.nombre}
                     </span>
                     {selected && (
-                      <div className="w-4 h-4 rounded-full bg-liverpool-black flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg className="w-2.5 h-2.5 text-liverpool-yellow" fill="none" viewBox="0 0 12 12">
+                      <div className="w-4 h-4 rounded-full bg-liverpool-magenta flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 12 12">
                           <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       </div>

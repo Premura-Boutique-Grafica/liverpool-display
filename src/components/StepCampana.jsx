@@ -46,13 +46,13 @@ export default function StepCampana({ order, updateOrder, onNext }) {
                 onClick={() => select(c)}
                 className={`w-full text-left rounded-xl border-2 px-4 py-4 transition-all duration-150 ${
                   selected
-                    ? 'border-liverpool-black bg-liverpool-yellow/10'
+                    ? 'border-liverpool-magenta bg-liverpool-rosa-light'
                     : 'border-gray-200 bg-white hover:border-gray-300'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className={`font-semibold text-sm ${selected ? 'text-liverpool-black' : 'text-gray-900'}`}>
+                    <p className={`font-semibold text-sm ${selected ? 'text-liverpool-morado' : 'text-gray-900'}`}>
                       {c.nombre}
                     </p>
                     <p className="text-xs text-gray-500 mt-0.5">
@@ -60,10 +60,10 @@ export default function StepCampana({ order, updateOrder, onNext }) {
                     </p>
                   </div>
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                    selected ? 'border-liverpool-black bg-liverpool-black' : 'border-gray-300'
+                    selected ? 'border-liverpool-magenta bg-liverpool-magenta' : 'border-gray-300'
                   }`}>
                     {selected && (
-                      <svg className="w-3 h-3 text-liverpool-yellow" fill="none" viewBox="0 0 12 12">
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 12 12">
                         <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     )}

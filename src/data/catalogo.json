@@ -2,55 +2,93 @@
   "categorias": [
     {
       "id": "piso",
-      "nombre": "Material de Piso",
+      "nombre": "Gráfico de Piso",
       "icono": "floor",
       "productos": [
         {
           "id": "p01",
-          "nombre": "Display Stand Torre",
-          "descripcion": "Torre de exhibición de piso con 4 niveles, estructura metálica",
+          "nombre": "Punto de Puerta",
+          "descripcion": "Vinil Electroestático",
+          "medida": "60 × 60 cm",
           "tipo": "piso",
-          "precio": 1850,
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
           "id": "p02",
-          "nombre": "Hanger de Piso Doble",
-          "descripcion": "Perchero de piso doble barra, capacidad 40 prendas",
+          "nombre": "Portaposter",
+          "descripcion": "Foamboard 10mm Duplex",
+          "medida": "60 × 120 cm",
           "tipo": "piso",
-          "precio": 980,
-          "artes": ["generico", "softline"],
+          "precio": 0,
+          "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
           "id": "p03",
-          "nombre": "Señalética de Piso A-Frame",
-          "descripcion": "Marco A de piso para señalética, doble cara, medidas 60×90 cm",
+          "nombre": "Banner",
+          "descripcion": "Foamboard 10mm Duplex",
+          "medida": "50 × 150 cm",
           "tipo": "piso",
-          "precio": 420,
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
           "id": "p04",
-          "nombre": "Canasta Metálica de Piso",
-          "descripcion": "Canasta exhibidora de piso tipo cesta, capacidad alto volumen",
+          "nombre": "Torre Slim Autosustentable",
+          "descripcion": "Foamboard 10mm Duplex",
+          "medida": null,
           "tipo": "piso",
-          "precio": 650,
-          "artes": ["generico", "hardline"],
+          "precio": 0,
+          "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
           "id": "p05",
-          "nombre": "Totem Impreso 180cm",
-          "descripcion": "Totem impreso full-color doble cara, estructura incluida",
+          "nombre": "Columna Grande",
+          "descripcion": "Foamboard 10mm Duplex",
+          "medida": "120 × 50 cm",
           "tipo": "piso",
-          "precio": 1200,
+          "precio": 0,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": true
+        },
+        {
+          "id": "p06",
+          "nombre": "Columna Chica",
+          "descripcion": "Foamboard 10mm Duplex",
+          "medida": "70 × 40 cm",
+          "tipo": "piso",
+          "precio": 0,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": true
+        },
+        {
+          "id": "p07",
+          "nombre": "Columna Vertical",
+          "descripcion": "Foamboard 10mm Duplex",
+          "medida": "50 × 100 cm",
+          "tipo": "piso",
+          "precio": 0,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": true
+        },
+        {
+          "id": "p08",
+          "nombre": "Totem",
+          "descripcion": "Cartulina",
+          "medida": "50 × 30 cm",
+          "tipo": "piso",
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
           "placeholder": true
@@ -59,102 +97,38 @@
     },
     {
       "id": "mueble",
-      "nombre": "Material de Mueble",
+      "nombre": "Gráfico para Mueble",
       "icono": "furniture",
       "productos": [
         {
           "id": "m01",
-          "nombre": "Header de Gondola",
-          "descripcion": "Cabezal impreso para góndola, medidas estándar Liverpool 90×30 cm",
+          "nombre": "Torre Slim Magnética",
+          "descripcion": "Estireno Cal 30, sencillo, con imán perimetral",
+          "medida": null,
           "tipo": "mueble",
-          "precio": 280,
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
           "id": "m02",
-          "nombre": "Módulo Expositor Mueble",
-          "descripcion": "Módulo acrílico para exhibición sobre mueble, 3 compartimentos",
+          "nombre": "Mesa MMM",
+          "descripcion": "Gráfico para mesa",
+          "medida": null,
           "tipo": "mueble",
-          "precio": 560,
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
           "id": "m03",
-          "nombre": "Etiqueta de Precio Grande",
-          "descripcion": "Cartela de precio tamaño grande, impresión a color, set de 10",
+          "nombre": "Mesa Prom",
+          "descripcion": "Gráfico para mesa promocional",
+          "medida": null,
           "tipo": "mueble",
-          "precio": 120,
-          "artes": ["generico"],
-          "imagen": null,
-          "placeholder": false
-        },
-        {
-          "id": "m04",
-          "nombre": "Faldón de Mueble",
-          "descripcion": "Faldón impreso para frente de mueble, vinilo adhesivo",
-          "tipo": "mueble",
-          "precio": 380,
-          "artes": ["generico", "softline", "hardline"],
-          "imagen": null,
-          "placeholder": false
-        },
-        {
-          "id": "m05",
-          "nombre": "Señalética Lateral Mueble",
-          "descripcion": "Señalética de banderola lateral para mueble, doble cara",
-          "tipo": "mueble",
-          "precio": 195,
-          "artes": ["generico", "softline", "hardline"],
-          "imagen": null,
-          "placeholder": false
-        }
-      ]
-    },
-    {
-      "id": "barra",
-      "nombre": "Material de Barra",
-      "icono": "bar",
-      "productos": [
-        {
-          "id": "b01",
-          "nombre": "Display Counter Barra",
-          "descripcion": "Display sobre mostrador para barra de servicio, acrílico",
-          "tipo": "barra",
-          "precio": 750,
-          "artes": ["generico", "softline", "hardline"],
-          "imagen": null,
-          "placeholder": false
-        },
-        {
-          "id": "b02",
-          "nombre": "Roll-Up Barra 85cm",
-          "descripcion": "Banner roll-up para zona de barra, 85×200 cm con estructura",
-          "tipo": "barra",
-          "precio": 890,
-          "artes": ["generico", "softline", "hardline"],
-          "imagen": null,
-          "placeholder": false
-        },
-        {
-          "id": "b03",
-          "nombre": "Soporte Folleto Barra",
-          "descripcion": "Portafolletos de mostrador, acrílico transparente, 3 bolsillos",
-          "tipo": "barra",
-          "precio": 165,
-          "artes": ["generico"],
-          "imagen": null,
-          "placeholder": false
-        },
-        {
-          "id": "b04",
-          "nombre": "Vinilo Decorativo Barra",
-          "descripcion": "Aplicación de vinilo decorativo para frente de barra, hasta 2m",
-          "tipo": "barra",
-          "precio": 480,
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
           "placeholder": true
@@ -162,46 +136,61 @@
       ]
     },
     {
-      "id": "colgante",
-      "nombre": "Material Colgante",
-      "icono": "hanging",
+      "id": "barra",
+      "nombre": "Barras",
+      "icono": "bar",
       "productos": [
         {
-          "id": "c01",
-          "nombre": "Banderola Colgante Simple",
-          "descripcion": "Banderola colgante impresa una cara, 40×60 cm con cuerda",
-          "tipo": "colgante",
-          "precio": 145,
+          "id": "b01",
+          "nombre": "Ballet 80",
+          "descripcion": "Foamboard 5mm Duplex",
+          "medida": null,
+          "tipo": "barra",
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
-          "id": "c02",
-          "nombre": "Banderola Colgante Doble",
-          "descripcion": "Banderola colgante doble cara, 40×60 cm, lona con acabado mate",
-          "tipo": "colgante",
-          "precio": 210,
+          "id": "b02",
+          "nombre": "Ballet 120",
+          "descripcion": "Foamboard 5mm Duplex",
+          "medida": null,
+          "tipo": "barra",
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
-          "id": "c03",
-          "nombre": "Cenefa Colgante por Metro",
-          "descripcion": "Cenefa decorativa colgante, precio por metro lineal, mínimo 3m",
-          "tipo": "colgante",
-          "precio": 95,
+          "id": "b03",
+          "nombre": "Tringla MIC",
+          "descripcion": "Foamboard 5mm Duplex",
+          "medida": null,
+          "tipo": "barra",
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
-          "placeholder": false
+          "placeholder": true
         },
         {
-          "id": "c04",
-          "nombre": "Kit Banderolas Campaña",
-          "descripcion": "Set de 5 banderolas temáticas coordinadas, doble cara",
-          "tipo": "colgante",
-          "precio": 950,
+          "id": "b04",
+          "nombre": "Tringla",
+          "descripcion": "Foamboard 5mm Duplex",
+          "medida": null,
+          "tipo": "barra",
+          "precio": 0,
+          "artes": ["generico", "softline", "hardline"],
+          "imagen": null,
+          "placeholder": true
+        },
+        {
+          "id": "b05",
+          "nombre": "Zapatera",
+          "descripcion": "Foamboard 5mm Duplex",
+          "medida": null,
+          "tipo": "barra",
+          "precio": 0,
           "artes": ["generico", "softline", "hardline"],
           "imagen": null,
           "placeholder": true
