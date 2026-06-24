@@ -3,12 +3,14 @@
     "id": "verano-2025",
     "nombre": "Verano 2025",
     "fecha": "2025-06-15",
-    "activa": true
+    "activa": true,
+    "imagen": null
   },
   {
     "id": "bts-2025",
     "nombre": "Back to School 2025",
     "fecha": "2025-07-28",
-    "activa": true
+    "activa": true,
+    "imagen": null
   }
 ]

@@ -11,16 +11,20 @@ export function totalQtyItem(item) {
   return Object.values(item.qtys).reduce((s, q) => s + (q || 0), 0)
 }
 
-export function calcTotals(items) {
-  // Prices are all placeholder (0) until confirmed — shipping logic dormant
+export function calcTotals(items, tienda = null) {
   const subtotal = Object.values(items).reduce((sum, item) => {
     const qty = totalQtyItem(item)
     return sum + qty * (item.precio || 0)
   }, 0)
 
+  const tiendaGratis = tienda && config.envio.tiendas_gratis?.includes(tienda.numero)
   const threshold = config.envio?.threshold_waiver ?? 5000
-  const costoEnvio = config.envio?.costo ?? 350
-  const envio = subtotal >= threshold ? 0 : (subtotal > 0 ? costoEnvio : 0)
+  const costoEnvio = config.envio?.costo ?? 700
+
+  let envio = 0
+  if (!tiendaGratis && subtotal > 0 && subtotal < threshold) {
+    envio = costoEnvio
+  }
 
   return { subtotal, envio, total: subtotal + envio }
 }
