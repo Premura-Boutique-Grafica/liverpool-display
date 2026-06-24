@@ -10,7 +10,7 @@ const arteColor = {
 
 export default function StepResumen({ order, onNext, onBack }) {
   const lines = flattenItems(order.items)
-  const { subtotal, envio, total } = calcTotals(order.items)
+  const { subtotal, envio, total } = calcTotals(order.items, order.tienda)
   const hasPlaceholders = lines.some(l => l.placeholder)
 
   return (

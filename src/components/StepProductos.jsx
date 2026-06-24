@@ -5,7 +5,7 @@ import ImageModal from './ImageModal'
 import { totalQtyItem, calcTotals, fmtMXN } from '../utils/pricing'
 
 export default function StepProductos({ order, updateOrder, onNext, onBack }) {
-  const [openCats, setOpenCats] = useState({ [catalogo.categorias[0]?.id]: true })
+  const [openCats, setOpenCats] = useState({})
   const [activeModal, setActiveModal] = useState(null)
 
   const toggleCat = (id) => setOpenCats(o => ({ ...o, [id]: !o[id] }))
@@ -21,7 +21,7 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
   }
 
   const totalItems = Object.values(order.items).reduce((s, i) => s + totalQtyItem(i), 0)
-  const { subtotal, envio, total } = calcTotals(order.items)
+  const { subtotal, envio, total } = calcTotals(order.items, order.tienda)
 
   // Count active items per category for badge
   const countByCat = {}
@@ -39,15 +39,21 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
           const catQty = countByCat[cat.id]
 
           return (
-            <section key={cat.id} className="border-b border-gray-100 last:border-b-0">
+            <section key={cat.id} className="last:border-b-0">
               {/* Accordion header */}
               <button
                 type="button"
                 onClick={() => toggleCat(cat.id)}
-                className="w-full flex items-center justify-between px-4 py-4 text-left"
+                className={`w-full flex items-center justify-between px-4 py-3.5 text-left transition-colors ${
+                  isOpen
+                    ? 'bg-liverpool-morado/5 border-l-4 border-liverpool-morado'
+                    : 'bg-gray-50 border-l-4 border-transparent hover:bg-gray-100'
+                }`}
               >
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-gray-900">{cat.nombre}</span>
+                <div className="flex items-center gap-2.5">
+                  <span className={`text-sm font-bold tracking-wide ${isOpen ? 'text-liverpool-morado' : 'text-gray-700'}`}>
+                    {cat.nombre}
+                  </span>
                   {catQty > 0 && (
                     <span className="bg-liverpool-magenta text-white text-[10px] font-bold px-2 py-0.5 rounded-full leading-none">
                       {catQty}
@@ -55,7 +61,7 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
                   )}
                 </div>
                 <svg
-                  className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                  className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-liverpool-morado' : 'text-gray-400'}`}
                   fill="none" viewBox="0 0 24 24"
                 >
                   <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -64,7 +70,7 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
 
               {/* Products */}
               {isOpen && (
-                <div className="px-4 pb-4 space-y-2">
+                <div className="px-4 pb-4 pt-3 space-y-2 border-b border-gray-100">
                   {cat.productos.map(product => (
                     <ProductCard
                       key={product.id}
