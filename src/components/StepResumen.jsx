@@ -1,10 +1,14 @@
-import { calcTotals, fmtMXN, formatFecha } from '../utils/pricing'
+import { formatFecha, flattenItems } from '../utils/pricing'
 import NavButtons from './NavButtons'
 
-const ARTE_LABELS = { generico: 'Genérico', softline: 'Softline', hardline: 'Hardline' }
+const arteColor = {
+  'Genérico': 'bg-gray-100 text-gray-600',
+  'Soft':     'bg-liverpool-rosa-light text-liverpool-morado',
+  'Hard':     'bg-orange-100 text-orange-700',
+}
 
 export default function StepResumen({ order, onNext, onBack }) {
-  const itemsList = Object.entries(order.items).filter(([, v]) => v.qty > 0)
+  const lines = flattenItems(order.items)
 
   return (
     <div className="flex flex-col flex-1 step-enter">
@@ -14,9 +18,11 @@ export default function StepResumen({ order, onNext, onBack }) {
         <section className="bg-gray-50 rounded-xl p-4 space-y-2.5">
           <Row label="Campaña" value={order.campana?.nombre} />
           <Divider />
-          <Row label="Fecha de campaña" value={formatFecha(order.campana?.fecha)} />
+          <Row label="Fecha" value={formatFecha(order.campana?.fecha)} />
           <Divider />
-          <Row label="Tienda" value={order.tienda?.nombre} />
+          <Row label="Tienda" value={`${order.tienda?.nombre} (#${order.tienda?.numero})`} />
+          <Divider />
+          <Row label="Zona" value={order.tienda?.zona} />
           <Divider />
           <Row label="Contacto" value={order.contacto} />
         </section>
@@ -24,37 +30,34 @@ export default function StepResumen({ order, onNext, onBack }) {
         {/* Artículos */}
         <section>
           <h2 className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-3">
-            Artículos ({itemsList.length})
+            Artículos ({lines.length} línea{lines.length !== 1 ? 's' : ''})
           </h2>
           <div className="space-y-2">
-            {itemsList.map(([id, item]) => (
-              <div key={id} className="bg-white border border-gray-200 rounded-xl px-4 py-3">
-                <div className="flex justify-between items-start gap-2">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 leading-tight">
-                      {item.nombre}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      Arte: {ARTE_LABELS[item.arte] || item.arte}
-                    </p>
+            {lines.map((line, i) => (
+              <div key={i} className="bg-white border border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 leading-tight">{line.nombre}</p>
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${arteColor[line.arte] || 'bg-gray-100 text-gray-600'}`}>
+                      {line.arte}
+                    </span>
                   </div>
-                  <span className="inline-block bg-amber-100 text-amber-700 text-[10px] font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0">
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-sm font-bold text-gray-900">{line.qty} pz</p>
+                  <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold">
                     Por confirmar
                   </span>
-                </div>
-                <div className="mt-2 text-xs text-gray-400">
-                  {item.qty} pieza{item.qty !== 1 ? 's' : ''}
                 </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Nota precios */}
         <div className="flex gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
           <span className="text-amber-500 text-base leading-none mt-0.5">⚠</span>
           <p className="text-xs text-amber-800 leading-relaxed">
-            Los precios de todos los artículos están pendientes de confirmación. Premura te enviará la cotización formal antes de procesar el pedido.
+            Los precios están pendientes de confirmación. Premura te enviará la cotización antes de procesar el pedido.
           </p>
         </div>
       </div>
