@@ -14,10 +14,7 @@ const arteColor = {
 }
 
 function buildMessage(order, orderId, lines) {
-  const { subtotal, envio, total } = calcTotals(
-    // Rebuild items map from flat lines for calcTotals compatibility
-    Object.fromEntries(lines.map((l, i) => [i, l]))
-  )
+  const { subtotal, envio, total } = calcTotals(order.items, order.tienda)
   const hasPlaceholders = lines.some(l => l.placeholder)
 
   const msgLines = [
@@ -63,7 +60,7 @@ function buildMessage(order, orderId, lines) {
 export default function StepConfirmacion({ order, onBack }) {
   const [copied, setCopied] = useState(false)
   const lines = flattenItems(order.items)
-  const { subtotal, envio, total } = calcTotals(order.items)
+  const { subtotal, envio, total } = calcTotals(order.items, order.tienda)
   const hasPlaceholders = lines.some(l => l.placeholder)
   const orderId = useMemo(() => generateOrderId(order.tienda), [order.tienda])
   const message = useMemo(() => buildMessage(order, orderId, lines), [order, orderId, lines])
