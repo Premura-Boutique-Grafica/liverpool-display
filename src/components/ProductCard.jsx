@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import ProductPlaceholder from './ProductPlaceholder'
-import { ARTES, totalQtyItem } from '../utils/pricing'
+import { ARTES, totalQtyItem, fmtMXN } from '../utils/pricing'
 
 // Chip color classes per arte
 const chipStyle = {
@@ -151,6 +151,13 @@ export default function ProductCard({ product, item, onItemChange, onImageClick 
                 {product.descripcion}
                 {product.medida && <span> · {product.medida}</span>}
               </p>
+              {product.placeholder ? (
+                <span className="inline-block mt-1 bg-amber-100 text-amber-700 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
+                  Precio por confirmar
+                </span>
+              ) : (
+                <p className="text-xs font-semibold text-gray-700 mt-1">{fmtMXN(product.precio)} c/u</p>
+              )}
             </div>
 
             {/* Action: expand or show total */}

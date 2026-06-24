@@ -2,7 +2,7 @@ import { useState } from 'react'
 import catalogo from '../data/catalogo.json'
 import ProductCard from './ProductCard'
 import ImageModal from './ImageModal'
-import { totalQtyItem } from '../utils/pricing'
+import { totalQtyItem, calcTotals, fmtMXN } from '../utils/pricing'
 
 export default function StepProductos({ order, updateOrder, onNext, onBack }) {
   const [openCats, setOpenCats] = useState({ [catalogo.categorias[0]?.id]: true })
@@ -21,6 +21,7 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
   }
 
   const totalItems = Object.values(order.items).reduce((s, i) => s + totalQtyItem(i), 0)
+  const { subtotal, envio, total } = calcTotals(order.items)
 
   // Count active items per category for badge
   const countByCat = {}
@@ -82,13 +83,28 @@ export default function StepProductos({ order, updateOrder, onNext, onBack }) {
 
       {/* Sticky footer */}
       <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white border-t-2 border-gray-100 z-20">
+        {totalItems > 0 && (
+          <div className="px-4 pt-3 pb-1 space-y-1">
+            <div className="flex justify-between text-xs text-gray-500">
+              <span>{totalItems} pieza{totalItems !== 1 ? 's' : ''}</span>
+              <span>Subtotal: <span className="font-semibold text-gray-800">{fmtMXN(subtotal)}</span></span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+              <span>Envío</span>
+              <span className={envio === 0 ? 'text-green-600 font-semibold' : 'font-semibold text-gray-800'}>
+                {envio === 0 ? 'Gratis' : fmtMXN(envio)}
+              </span>
+            </div>
+          </div>
+        )}
         <div className="px-4 py-3 flex items-center justify-between gap-3">
           <div>
             {totalItems === 0
               ? <p className="text-sm text-gray-400">Agrega al menos un artículo</p>
-              : <p className="text-sm text-gray-700 font-medium">
-                  <span className="text-liverpool-magenta font-bold">{totalItems}</span> pieza{totalItems !== 1 ? 's' : ''} seleccionada{totalItems !== 1 ? 's' : ''}
-                </p>
+              : <div className="flex items-baseline gap-1.5">
+                  <span className="text-xs text-gray-500">Total</span>
+                  <span className="text-lg font-bold text-liverpool-magenta">{fmtMXN(total)}</span>
+                </div>
             }
           </div>
           <div className="flex gap-2 flex-shrink-0">

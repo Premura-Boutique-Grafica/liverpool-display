@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { formatFecha, generateOrderId, flattenItems } from '../utils/pricing'
+import { formatFecha, generateOrderId, flattenItems, calcTotals, fmtMXN } from '../utils/pricing'
 import config from '../data/config.json'
 
 // TODO (Fase 2): Integración con Twist API
@@ -14,6 +14,12 @@ const arteColor = {
 }
 
 function buildMessage(order, orderId, lines) {
+  const { subtotal, envio, total } = calcTotals(
+    // Rebuild items map from flat lines for calcTotals compatibility
+    Object.fromEntries(lines.map((l, i) => [i, l]))
+  )
+  const hasPlaceholders = lines.some(l => l.placeholder)
+
   const msgLines = [
     `📦 PEDIDO DE MATERIAL DISPLAY`,
     `━━━━━━━━━━━━━━━━━━━━━━`,
@@ -31,15 +37,22 @@ function buildMessage(order, orderId, lines) {
   ]
 
   for (const line of lines) {
-    msgLines.push(`• ${line.nombre}`)
-    msgLines.push(`  Arte: ${line.arte}  |  Cantidad: ${line.qty} pz`)
-    msgLines.push(`  Precio: Por confirmar`)
+    const lineTotal = line.placeholder ? 'Por confirmar' : fmtMXN(line.qty * line.precio)
+    msgLines.push(`• ${line.nombre} [${line.arte}]`)
+    msgLines.push(`  ${line.qty} pz × ${line.placeholder ? 'precio por confirmar' : fmtMXN(line.precio)} = ${lineTotal}`)
     msgLines.push(``)
   }
 
   msgLines.push(`──────────────────────`)
-  msgLines.push(`⚠ Precios pendientes de confirmación.`)
-  msgLines.push(`${config.nombre_empresa} enviará cotización formal.`)
+  msgLines.push(`Subtotal:  ${fmtMXN(subtotal)}`)
+  msgLines.push(`Envío:     ${envio === 0 ? 'Gratis' : fmtMXN(envio)}`)
+  msgLines.push(`TOTAL:     ${fmtMXN(total)}`)
+
+  if (hasPlaceholders) {
+    msgLines.push(``)
+    msgLines.push(`⚠ Algunos precios están pendientes de confirmación. El total puede variar.`)
+  }
+
   msgLines.push(``)
   msgLines.push(`━━━━━━━━━━━━━━━━━━━━━━`)
   msgLines.push(`${config.nombre_empresa} × ${config.cliente}`)
@@ -50,6 +63,8 @@ function buildMessage(order, orderId, lines) {
 export default function StepConfirmacion({ order, onBack }) {
   const [copied, setCopied] = useState(false)
   const lines = flattenItems(order.items)
+  const { subtotal, envio, total } = calcTotals(order.items)
+  const hasPlaceholders = lines.some(l => l.placeholder)
   const orderId = useMemo(() => generateOrderId(order.tienda), [order.tienda])
   const message = useMemo(() => buildMessage(order, orderId, lines), [order, orderId, lines])
 
@@ -120,23 +135,47 @@ export default function StepConfirmacion({ order, onBack }) {
               <div key={i} className="px-4 py-2.5 flex items-center justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold text-gray-900 leading-snug">{line.nombre}</p>
-                  <span className={`inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded-full mt-0.5 ${arteColor[line.arte] || 'bg-gray-100 text-gray-600'}`}>
-                    {line.arte}
-                  </span>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${arteColor[line.arte] || 'bg-gray-100 text-gray-600'}`}>
+                      {line.arte}
+                    </span>
+                    <span className="text-[10px] text-gray-400">{line.qty} pz × {fmtMXN(line.precio)}</span>
+                  </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className="text-xs font-bold text-gray-900">{line.qty} pz</p>
-                  <p className="text-[10px] text-amber-600">Por confirmar</p>
+                  {line.placeholder ? (
+                    <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold">Por confirmar</span>
+                  ) : (
+                    <p className="text-xs font-bold text-gray-900">{fmtMXN(line.qty * line.precio)}</p>
+                  )}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="bg-liverpool-rosa-light border-t border-liverpool-rosa px-4 py-2.5">
-            <p className="text-xs text-liverpool-morado font-medium text-center">
-              Premura enviará cotización antes de procesar
-            </p>
+          {/* Totals */}
+          <div className="border-t border-gray-200 px-4 py-3 space-y-1.5 bg-gray-50">
+            <div className="flex justify-between text-xs text-gray-500">
+              <span>Subtotal</span>
+              <span className="font-medium text-gray-800">{fmtMXN(subtotal)}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+              <span>Envío</span>
+              <span className={`font-medium ${envio === 0 ? 'text-green-600' : 'text-gray-800'}`}>
+                {envio === 0 ? 'Gratis' : fmtMXN(envio)}
+              </span>
+            </div>
+            <div className="flex justify-between pt-1 border-t border-gray-200">
+              <span className="text-sm font-bold text-gray-900">Total</span>
+              <span className="text-base font-bold text-liverpool-magenta">{fmtMXN(total)}</span>
+            </div>
           </div>
+
+          {hasPlaceholders && (
+            <div className="bg-amber-50 border-t border-amber-100 px-4 py-2.5">
+              <p className="text-xs text-amber-700 text-center">⚠ Algunos precios están por confirmar — el total puede variar</p>
+            </div>
+          )}
         </div>
 
         {/* Buttons */}
